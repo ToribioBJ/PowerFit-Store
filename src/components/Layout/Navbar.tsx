@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
+import { useCart } from '../../context/CartContext';
 import styles from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { cartCount } = useCart();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -48,7 +50,7 @@ const Navbar: React.FC = () => {
         <div className={styles.navActions}>
           <Link to="/carrito" className={styles.cartBtn} title="Ver Carrito">
             <FaShoppingCart className={styles.cartIcon} />
-            <span className={styles.cartBadge}>0</span>
+            <span className={styles.cartBadge}>{cartCount}</span>
           </Link>
 
           {/* Hamburger Menu Icon */}
@@ -89,3 +91,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
