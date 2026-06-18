@@ -16,7 +16,8 @@ const Cart: React.FC = () => {
     message += '*Productos:*\n';
     
     cartItems.forEach((item) => {
-      const itemSubtotal = item.product.price * item.quantity;
+      const finalPrice = item.product.price * (1 - item.product.discount / 100);
+      const itemSubtotal = finalPrice * item.quantity;
       message += `- ${item.quantity} x ${item.product.name} (S/ ${itemSubtotal.toFixed(2)})\n`;
     });
     
@@ -91,7 +92,7 @@ const Cart: React.FC = () => {
 
                 {/* Subtotal */}
                 <div className={styles.itemPrice}>
-                  S/ {(item.product.price * item.quantity).toFixed(2)}
+                  S/ {(item.product.price * (1 - item.product.discount / 100) * item.quantity).toFixed(2)}
                 </div>
 
                 {/* Delete button */}

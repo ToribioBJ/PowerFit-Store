@@ -43,6 +43,7 @@ const Footer: React.FC = () => {
           <h3 className={styles.sectionTitle}>Navegación</h3>
           <ul className={styles.linksList}>
             <li><Link to="/">Inicio</Link></li>
+            <li><Link to="/nosotros">Nosotros</Link></li>
             <li><Link to="/catalogo">Catálogo</Link></li>
             <li><Link to="/contacto">Contacto</Link></li>
             <li><Link to="/carrito">Ver Carrito</Link></li>

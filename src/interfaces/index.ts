@@ -8,6 +8,8 @@ export interface Product {
   description: string;
   featured: boolean;
   stock: number;
+  brand: string;
+  discount: number; // Porcentaje de descuento (0 si no tiene)
   nutrition: {
     protein: string;
     carbs: string;

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import Home from '../pages/Home';
+import About from '../pages/About';
 import Catalog from '../pages/Catalog';
 import ProductDetail from '../pages/ProductDetail';
 import Cart from '../pages/Cart';
@@ -15,6 +16,7 @@ const AppRouter: React.FC = () => {
         {/* Rutas envueltas en el Layout General */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="nosotros" element={<About />} />
           <Route path="catalogo" element={<Catalog />} />
           <Route path="producto/:id" element={<ProductDetail />} />
           <Route path="carrito" element={<Cart />} />
@@ -29,3 +31,4 @@ const AppRouter: React.FC = () => {
 };
 
 export default AppRouter;
+

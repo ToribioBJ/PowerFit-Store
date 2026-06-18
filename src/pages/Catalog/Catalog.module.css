@@ -131,50 +131,45 @@
   font-weight: 700;
 }
 
-/* Price Range Filter */
-.priceRangeWrapper {
+/* Brands Filter */
+.brandsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: -8px;
+}
+
+.priceContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: 400px;
+  align-items: flex-end;
 }
 
-.priceLabelRow {
-  display: flex;
-  justify-content: space-between;
+.originalPrice {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
+  text-decoration: line-through;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
-.priceLabelRow span:last-child {
-  font-weight: 700;
-  color: var(--color-accent);
+.discountBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: #e53935;
+  color: var(--text-primary);
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  z-index: 5;
 }
 
-.priceSlider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--border-color);
-  outline: none;
-}
-
-.priceSlider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(0, 230, 118, 0.5);
-  transition: transform var(--transition-fast);
-}
-
-.priceSlider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
 
 /* Product Grid */
 .productsGrid {

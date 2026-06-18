@@ -76,7 +76,21 @@ const ProductDetail: React.FC = () => {
           </div>
 
           <div className={styles.productPrice}>
-            S/ {product.price.toFixed(2)}
+            {product.discount > 0 ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '1.25rem', fontWeight: 600 }}>
+                  S/ {product.price.toFixed(2)}
+                </span>
+                <span>
+                  S/ {(product.price * (1 - product.discount / 100)).toFixed(2)}
+                </span>
+                <span style={{ backgroundColor: '#e53935', color: '#fff', fontSize: '0.8rem', padding: '4px 8px', borderRadius: '4px', fontFamily: 'var(--font-title)', fontWeight: 900 }}>
+                  {product.discount}% OFF
+                </span>
+              </div>
+            ) : (
+              <span>S/ {product.price.toFixed(2)}</span>
+            )}
           </div>
 
           <div className={styles.descriptionSection}>

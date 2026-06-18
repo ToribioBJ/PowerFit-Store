@@ -13,14 +13,25 @@ const Catalog: React.FC = () => {
   // State
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [maxPrice, setMaxPrice] = useState(300);
-  const [sortBy, setSortBy] = useState('default');
+  const [selectedBrand, setSelectedBrand] = useState('Todas');
+  const [sortBy, setSortBy] = useState('price-asc'); // Por defecto orden de menor a mayor precio
 
   // Categories list derived dynamically
   const categories = useMemo(() => {
     const cats = new Set(products.map(p => p.category));
     return ['Todos', ...Array.from(cats)];
   }, [products]);
+
+  // Brands list derived dynamically
+  const brands = useMemo(() => {
+    const brs = new Set(products.map(p => p.brand));
+    return ['Todas', ...Array.from(brs)];
+  }, [products]);
+
+  // Helper to get final discounted price
+  const getFinalPrice = (product: Product) => {
+    return product.price * (1 - product.discount / 100);
+  };
 
   // Filtered and sorted products
   const filteredProducts = useMemo(() => {
@@ -32,31 +43,31 @@ const Catalog: React.FC = () => {
       // 2. Category match
       const matchesCategory = selectedCategory === 'Todos' || product.category === selectedCategory;
       
-      // 3. Price match
-      const matchesPrice = product.price <= maxPrice;
+      // 3. Brand match
+      const matchesBrand = selectedBrand === 'Todas' || product.brand === selectedBrand;
 
-      return matchesSearch && matchesCategory && matchesPrice;
+      return matchesSearch && matchesCategory && matchesBrand;
     });
 
-    // Sort
+    // Sort logic
     if (sortBy === 'price-asc') {
-      result.sort((a, b) => a.price - b.price);
+      result.sort((a, b) => getFinalPrice(a) - getFinalPrice(b));
     } else if (sortBy === 'price-desc') {
-      result.sort((a, b) => b.price - a.price);
+      result.sort((a, b) => getFinalPrice(b) - getFinalPrice(a));
+    } else if (sortBy === 'discount-desc') {
+      result.sort((a, b) => b.discount - a.discount);
     } else if (sortBy === 'name-asc') {
       result.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortBy === 'name-desc') {
-      result.sort((a, b) => b.name.localeCompare(a.name));
     }
 
     return result;
-  }, [products, searchTerm, selectedCategory, maxPrice, sortBy]);
+  }, [products, searchTerm, selectedCategory, selectedBrand, sortBy]);
 
   const handleClearFilters = () => {
     setSearchTerm('');
     setSelectedCategory('Todos');
-    setMaxPrice(300);
-    setSortBy('default');
+    setSelectedBrand('Todas');
+    setSortBy('price-asc');
   };
 
   return (
@@ -88,11 +99,10 @@ const Catalog: React.FC = () => {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="default">Ordenar por: Relevancia</option>
             <option value="price-asc">Precio: Menor a Mayor</option>
             <option value="price-desc">Precio: Mayor a Menor</option>
+            <option value="discount-desc">Mayor Descuento</option>
             <option value="name-asc">Nombre: A-Z</option>
-            <option value="name-desc">Nombre: Z-A</option>
           </select>
         </div>
 
@@ -112,21 +122,20 @@ const Catalog: React.FC = () => {
           ))}
         </div>
 
-        {/* Rango de Precios */}
-        <div className={styles.priceRangeWrapper}>
-          <div className={styles.priceLabelRow}>
-            <span>Precio máximo:</span>
-            <span>S/ {maxPrice.toFixed(2)}</span>
-          </div>
-          <input
-            type="range"
-            min="50"
-            max="300"
-            step="5"
-            className={styles.priceSlider}
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(Number(e.target.value))}
-          />
+        {/* Marcas */}
+        <div className={styles.brandsList}>
+          <span className={styles.filterLabel}>Marca:</span>
+          {brands.map((br) => (
+            <button
+              key={br}
+              onClick={() => setSelectedBrand(br)}
+              className={`${styles.categoryBtn} ${
+                selectedBrand === br ? styles.activeCategoryBtn : ''
+              }`}
+            >
+              {br}
+            </button>
+          ))}
         </div>
       </section>
 
@@ -134,43 +143,56 @@ const Catalog: React.FC = () => {
       <section>
         {filteredProducts.length > 0 ? (
           <div className={styles.productsGrid}>
-            {filteredProducts.map((product) => (
-              <article key={product.id} className={`${styles.productCard} card-premium`}>
-                <div className={styles.imageContainer}>
-                  {product.featured && <span className={styles.featuredBadge}>Destacado</span>}
-                  {product.stock <= 5 && (
-                    <span className={styles.stockBadge}>¡Solo {product.stock} disp!</span>
-                  )}
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className={styles.productImg}
-                    loading="lazy"
-                  />
-                </div>
+            {filteredProducts.map((product) => {
+              const hasDiscount = product.discount > 0;
+              const finalPrice = getFinalPrice(product);
+              
+              return (
+                <article key={product.id} className={`${styles.productCard} card-premium`}>
+                  <div className={styles.imageContainer}>
+                    {product.featured && <span className={styles.featuredBadge}>Destacado</span>}
+                    {hasDiscount && (
+                      <span className={styles.discountBadge}>{product.discount}% OFF</span>
+                    )}
+                    {product.stock <= 5 && (
+                      <span className={styles.stockBadge}>¡Solo {product.stock} disp!</span>
+                    )}
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className={styles.productImg}
+                      loading="lazy"
+                    />
+                  </div>
 
-                <div className={styles.productMeta}>
-                  <span className={styles.categoryTag}>{product.category}</span>
-                  <span className={styles.priceTag}>S/ {product.price.toFixed(2)}</span>
-                </div>
+                  <div className={styles.productMeta}>
+                    <span className={styles.categoryTag}>{product.category}</span>
+                    <div className={styles.priceContainer}>
+                      {hasDiscount && (
+                        <span className={styles.originalPrice}>S/ {product.price.toFixed(2)}</span>
+                      )}
+                      <span className={styles.priceTag}>S/ {finalPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
 
-                <h3 className={styles.productName}>{product.name}</h3>
-                <p className={styles.productDesc}>{product.description}</p>
+                  <h3 className={styles.productName}>{product.name}</h3>
+                  <p className={styles.productDesc}>{product.description}</p>
 
-                <div className={styles.cardActions}>
-                  <button
-                    onClick={() => addToCart(product, 1)}
-                    className={styles.addToCartBtn}
-                    title="Añadir al carrito"
-                  >
-                    <FaShoppingCart /> Añadir
-                  </button>
-                  <Link to={`/producto/${product.id}`} className={styles.detailBtn}>
-                    <FaInfoCircle /> Detalles
-                  </Link>
-                </div>
-              </article>
-            ))}
+                  <div className={styles.cardActions}>
+                    <button
+                      onClick={() => addToCart(product, 1)}
+                      className={styles.addToCartBtn}
+                      title="Añadir al carrito"
+                    >
+                      <FaShoppingCart /> Añadir
+                    </button>
+                    <Link to={`/producto/${product.id}`} className={styles.detailBtn}>
+                      <FaInfoCircle /> Detalles
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         ) : (
           <div className={styles.noProducts}>
