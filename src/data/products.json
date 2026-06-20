@@ -1,31 +1,71 @@
 [
   {
     "id": 1,
-    "name": "100% Whey Gold Protein",
+    "name": "Beef XP Clear Protein Isolate",
     "category": "Proteínas",
-    "price": 189.90,
-    "brand": "Optimum Nutrition",
-    "discount": 15,
-    "image": "/src/assets/whey_protein.png",
-    "description": "Suero de leche de alta pureza diseñado para acelerar la recuperación muscular y el desarrollo de masa muscular magra. Aporta 24g de proteína de acción rápida por porción.",
+    "price": 329.00,
+    "brand": "Applied Nutrition",
+    "discount": 9.12,
+    "image": "/src/assets/PROTEINAS/BEEF XP CLEAR PROTEIN ISOLATE.png",
+    "hoverImage": "/src/assets/PROTEINAS/CABEEF XP CLEAR PROTEIN ISOLATE.png",
+    "description": "Proteína 100% de carne de vacuno hidrolizada de alta calidad. Aporta 27g de proteína por servicio. Fórmula cero grasa y cero azúcar, libre de gluten y lactosa. Ideal para desarrollo muscular limpio y recuperación.",
     "featured": true,
     "stock": 15,
     "nutrition": {
-      "protein": "24g",
-      "carbs": "3g",
+      "protein": "27g",
+      "carbs": "0g",
+      "fats": "0g",
+      "calories": "110 kcal"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Carnivor Protein",
+    "category": "Proteínas",
+    "price": 299.00,
+    "brand": "MuscleMeds",
+    "discount": 0,
+    "image": "/src/assets/PROTEINAS/CARNIVOR PROTEIN.png",
+    "hoverImage": "/src/assets/PROTEINAS/CACARNIVOR PROTEIN.png",
+    "description": "Proteína aislada de carne de vacuno clínicamente probada. Aporta 23g de proteína pura por servicio y está recargada con creatina y BCAAs. Cero grasa, cero azúcar, cero colesterol, cero lactosa y libre de gluten.",
+    "featured": true,
+    "stock": 10,
+    "nutrition": {
+      "protein": "23g",
+      "carbs": "0g",
+      "fats": "0g",
+      "calories": "120 kcal"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Classic Whey",
+    "category": "Proteínas",
+    "price": 299.00,
+    "brand": "Nutrabio",
+    "discount": 43.48,
+    "image": "/src/assets/PROTEINAS/CLASSIC WHEY.png",
+    "hoverImage": "/src/assets/PROTEINAS/CACLASSIC WHEY.png",
+    "description": "Concentrado de proteína de suero de leche de la más alta calidad de Nutrabio. Aporta 25g de proteína y un perfil completo de aminoácidos. Apoya de manera efectiva el crecimiento muscular y preserva la masa magra. Baja en carbohidratos, grasas y azúcares.",
+    "featured": false,
+    "stock": 8,
+    "nutrition": {
+      "protein": "25g",
+      "carbs": "2g",
       "fats": "1.5g",
       "calories": "120 kcal"
     }
   },
   {
-    "id": 2,
-    "name": "Creatine Monohydrate Ultimate",
+    "id": 4,
+    "name": "Creatina Dorian Yates",
     "category": "Creatinas",
-    "price": 124.90,
-    "brand": "Ultimate Nutrition",
-    "discount": 10,
-    "image": "/src/assets/creatine.png",
-    "description": "Creatina monohidratada micronizada al 100% de la más alta pureza. Incrementa la fuerza explosiva, mejora el rendimiento de alta intensidad y optimiza la hidratación celular.",
+    "price": 189.00,
+    "brand": "DY Nutrition",
+    "discount": 58.20,
+    "image": "/src/assets/CREATINAS/CREATINA DORIAN YATES.png",
+    "hoverImage": "/src/assets/CREATINAS/CACREATINA DORIAN YATES.png",
+    "description": "Monohidrato de creatina de la prestigiosa línea de Dorian Yates. Diseñada para mejorar dramáticamente la fuerza muscular y la resistencia en entrenamientos intensos. Apoya el desarrollo muscular y es de fácil disolución.",
     "featured": true,
     "stock": 20,
     "nutrition": {
@@ -36,16 +76,55 @@
     }
   },
   {
-    "id": 3,
-    "name": "Pre-Workout Inferno Blast",
+    "id": 5,
+    "name": "Creatina Kevin Levrone",
+    "category": "Creatinas",
+    "price": 119.00,
+    "brand": "Kevin Levrone",
+    "discount": 33.61,
+    "image": "/src/assets/CREATINAS/KEVIN LEVRONE.png",
+    "hoverImage": "/src/assets/CREATINAS/CAKEVIN LEVRONE.png",
+    "description": "Creatina 100% monohidratada de Kevin Levrone Signature Series. Promueve la ganancia de fuerza muscular, mejora la resistencia durante el entrenamiento físico y acelera la recuperación post-entrenamiento. Aporta 2.5g por servicio.",
+    "featured": false,
+    "stock": 25,
+    "nutrition": {
+      "protein": "0g",
+      "carbs": "0g",
+      "fats": "0g",
+      "calories": "0 kcal"
+    }
+  },
+  {
+    "id": 6,
+    "name": "Creatina Nutrabio",
+    "category": "Creatinas",
+    "price": 129.00,
+    "brand": "Nutrabio",
+    "discount": 23.26,
+    "image": "/src/assets/CREATINAS/CREATINA NUTRABIO.png",
+    "hoverImage": "/src/assets/CREATINAS/CACREATINA NUTRABIO.png",
+    "description": "Creatina micronizada de máxima pureza y grado farmacéutico. Favorece el desarrollo de la masa muscular, incrementa significativamente la fuerza y mejora el rendimiento atlético. Contiene 60 servicios de la más alta calidad.",
+    "featured": false,
+    "stock": 30,
+    "nutrition": {
+      "protein": "0g",
+      "carbs": "0g",
+      "fats": "0g",
+      "calories": "0 kcal"
+    }
+  },
+  {
+    "id": 7,
+    "name": "C4 Sport Pre-Workout",
     "category": "Pre-entreno",
-    "price": 149.90,
-    "brand": "PowerFit Labs",
-    "discount": 20,
-    "image": "/src/assets/pre_workout.png",
-    "description": "Fórmula explosiva de pre-entrenamiento diseñada para maximizar el enfoque mental, la congestión muscular y la energía física extrema. Contiene cafeína, beta-alanina y citrulina.",
+    "price": 169.00,
+    "brand": "Cellucor",
+    "discount": 0,
+    "image": "/src/assets/PREENTRENOS/C4 SPORT.png",
+    "hoverImage": "/src/assets/PREENTRENOS/CAC4 SPORT.png",
+    "description": "Pre-entrenamiento diseñado para brindar más energía a tus entrenamientos, mejorar el rendimiento físico general y aumentar la resistencia muscular. Disminuye la fatiga muscular y es ideal para cualquier deporte o disciplina.",
     "featured": true,
-    "stock": 10,
+    "stock": 15,
     "nutrition": {
       "protein": "0g",
       "carbs": "1g",
@@ -54,57 +133,41 @@
     }
   },
   {
-    "id": 4,
-    "name": "BCAA Recovery Elite 2:1:1",
-    "category": "Aminoácidos",
-    "price": 99.90,
-    "brand": "Optimum Nutrition",
+    "id": 8,
+    "name": "Hyde Nightmare",
+    "category": "Pre-entreno",
+    "price": 149.00,
+    "brand": "Prosupps",
     "discount": 0,
-    "image": "/src/assets/bcaa.png",
-    "description": "Aminoácidos de cadena ramificada de ratio premium 2:1:1 (Leucina, Isoleucina y Valina). Evita el catabolismo muscular, disminuye la fatiga durante entrenamientos largos y promueve la síntesis proteica.",
+    "image": "/src/assets/PREENTRENOS/HYDE NIGHTMARE.png",
+    "hoverImage": "/src/assets/PREENTRENOS/CAHYDE NIGHTMARE.png",
+    "description": "Fórmula pre-entrenamiento avanzada para entrenamientos de alta intensidad. Aumenta drásticamente la energía y mejora el rendimiento. Formulado con 6g de citrulina, 3.2g de beta alanina y 300mg de cafeína de fuentes naturales.",
     "featured": false,
-    "stock": 25,
+    "stock": 12,
     "nutrition": {
-      "protein": "7g",
-      "carbs": "0g",
+      "protein": "0g",
+      "carbs": "1g",
       "fats": "0g",
-      "calories": "30 kcal"
+      "calories": "5 kcal"
     }
   },
   {
-    "id": 5,
-    "name": "Iso Hydro Whey Premium",
-    "category": "Proteínas",
-    "price": 239.90,
-    "brand": "PowerFit Labs",
-    "discount": 5,
-    "image": "/src/assets/iso_whey.png",
-    "description": "Aislado e hidrolizado de proteína de suero ultra-filtrado de absorción instantánea. Cero azúcar, cero lactosa y cero grasas. La opción más pura para atletas de élite.",
-    "featured": false,
-    "stock": 8,
-    "nutrition": {
-      "protein": "26g",
-      "carbs": "0g",
-      "fats": "0g",
-      "calories": "110 kcal"
-    }
-  },
-  {
-    "id": 6,
-    "name": "Micronized L-Glutamine",
-    "category": "Aminoácidos",
-    "price": 89.90,
-    "brand": "Ultimate Nutrition",
+    "id": 9,
+    "name": "Venom Inferno",
+    "category": "Pre-entreno",
+    "price": 169.00,
+    "brand": "Dragon Pharma",
     "discount": 0,
-    "image": "/src/assets/glutamine.png",
-    "description": "L-Glutamina pura de grado farmacéutico. Favorece la recuperación post-entrenamiento, apoya la regeneración de tejidos y fortalece el sistema inmunológico sometido a estrés físico alto.",
+    "image": "/src/assets/PREENTRENOS/VENOM INFERNO.png",
+    "hoverImage": "/src/assets/PREENTRENOS/CAVENOM INFERNO.jpg",
+    "description": "Fórmula pre-entrenamiento de potencia extrema diseñada por Dragon Pharma. Contiene 1600mg de beta alanina, 1250mg de betaína y 250mg de cafeína para conseguir máxima energía, concentración extrema y un bombeo muscular masivo.",
     "featured": false,
-    "stock": 30,
+    "stock": 10,
     "nutrition": {
-      "protein": "5g",
-      "carbs": "0g",
+      "protein": "0g",
+      "carbs": "1g",
       "fats": "0g",
-      "calories": "20 kcal"
+      "calories": "5 kcal"
     }
   }
 ]

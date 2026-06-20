@@ -1,0 +1,116 @@
+[
+  {
+    "id": 101,
+    "name": "Combo Potencia & Masa (Carnivor + C4)",
+    "category": "Promociones",
+    "price": 389.00,
+    "originalPrice": 468.00,
+    "brand": "PowerFit Combos",
+    "discount": 0,
+    "image": "/src/assets/PROMOCIONES/PROMOCION1.png",
+    "hoverImage": "/src/assets/PROMOCIONES/PROMOCION1.png",
+    "description": "¡El combo ideal para la ganancia muscular y energía! Combina Carnivor Protein (proteína aislada de carne ultra pura de MuscleMeds, cargada con BCAAs y creatina) con la potencia de pre-entrenamiento de C4 Sport de Cellucor para retrasar la fatiga y entrenar al máximo nivel de exigencia.",
+    "featured": true,
+    "stock": 12,
+    "productsIncluded": [
+      {
+        "id": 2,
+        "name": "Carnivor Protein",
+        "brand": "MuscleMeds",
+        "image": "/src/assets/PROTEINAS/CARNIVOR PROTEIN.png"
+      },
+      {
+        "id": 7,
+        "name": "C4 Sport Pre-Workout",
+        "brand": "Cellucor",
+        "image": "/src/assets/PREENTRENOS/C4 SPORT.png"
+      }
+    ],
+    "nutrition": {
+      "protein": "23g",
+      "carbs": "1g",
+      "fats": "0g",
+      "calories": "125 kcal"
+    }
+  },
+  {
+    "id": 102,
+    "name": "Pack Fuerza & Energía Extrema",
+    "category": "Promociones",
+    "price": 419.00,
+    "originalPrice": 507.00,
+    "brand": "PowerFit Combos",
+    "discount": 0,
+    "image": "/src/assets/PROMOCIONES/PROMOCION2.png",
+    "hoverImage": "/src/assets/PROMOCIONES/PROMOCION2.png",
+    "description": "¡Para los atletas de nivel élite! Reúne la energía explosiva y concentración mental de Venom Inferno (Dragon Pharma), el monohidrato de creatina de alta pureza de Dorian Yates (DY Nutrition) para disparar tu fuerza celular y el pre-entrenamiento Hyde Nightmare (Prosupps) para bombear al máximo y retrasar la fatiga.",
+    "featured": true,
+    "stock": 8,
+    "productsIncluded": [
+      {
+        "id": 9,
+        "name": "Venom Inferno",
+        "brand": "Dragon Pharma",
+        "image": "/src/assets/PREENTRENOS/VENOM INFERNO.png"
+      },
+      {
+        "id": 4,
+        "name": "Creatina Dorian Yates",
+        "brand": "DY Nutrition",
+        "image": "/src/assets/CREATINAS/CREATINA DORIAN YATES.png"
+      },
+      {
+        "id": 8,
+        "name": "Hyde Nightmare",
+        "brand": "Prosupps",
+        "image": "/src/assets/PREENTRENOS/HYDE NIGHTMARE.png"
+      }
+    ],
+    "nutrition": {
+      "protein": "0g",
+      "carbs": "2g",
+      "fats": "0g",
+      "calories": "10 kcal"
+    }
+  },
+  {
+    "id": 103,
+    "name": "Combo Triple Poder Energético",
+    "category": "Promociones",
+    "price": 369.00,
+    "originalPrice": 447.00,
+    "brand": "PowerFit Combos",
+    "discount": 0,
+    "image": "/src/assets/PROMOCIONES/PROMOCION3.png",
+    "hoverImage": "/src/assets/PROMOCIONES/PROMOCION3.png",
+    "description": "¡Maximiza tu rendimiento y acelera la recuperación celular! Este combo de Nutrabio, Cellucor y Prosupps te equipa con la Creatina Micronizada pura de Nutrabio para mayor potencia de empuje, junto con dos pre-entrenamientos líderes mundiales: C4 Sport y Hyde Nightmare para alternar según la carga de energía requerida.",
+    "featured": true,
+    "stock": 15,
+    "productsIncluded": [
+      {
+        "id": 6,
+        "name": "Creatina Nutrabio",
+        "brand": "Nutrabio",
+        "image": "/src/assets/CREATINAS/CREATINA NUTRABIO.png"
+      },
+      {
+        "id": 7,
+        "name": "C4 Sport Pre-Workout",
+        "brand": "Cellucor",
+        "image": "/src/assets/PREENTRENOS/C4 SPORT.png"
+      },
+      {
+        "id": 8,
+        "name": "Hyde Nightmare",
+        "brand": "Prosupps",
+        "image": "/src/assets/PREENTRENOS/HYDE NIGHTMARE.png"
+      }
+    ],
+    "nutrition": {
+      "protein": "0g",
+      "carbs": "2g",
+      "fats": "0g",
+      "calories": "10 kcal"
+    }
+  }
+]
