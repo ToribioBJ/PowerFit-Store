@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaInfoCircle, FaInbox, FaTimes } from 'react-icons/fa';
-import productsData from '../../data/products.json';
-import promotionsData from '../../data/promotions.json';
 import type { Product } from '../../interfaces';
 import { useCart } from '../../context/CartContext';
+import { useStore } from '../../context/StoreContext';
 
 export const ProductCard: React.FC<{ 
   product: Product; 
@@ -94,7 +93,7 @@ export const ProductCard: React.FC<{
 };
 
 const Catalog: React.FC = () => {
-  const products: Product[] = productsData as Product[];
+  const { products, promotions } = useStore();
   const { addToCart } = useCart();
 
   // State
@@ -126,7 +125,7 @@ const Catalog: React.FC = () => {
     let baseProducts = [...products];
     if (selectedCategory === 'Promociones') {
       baseProducts = [
-        ...promotionsData.map(promo => ({ ...promo, discount: 0 })), // Establecemos discount a 0 para mostrar el precio neto directo
+        ...promotions.map(promo => ({ ...promo, discount: 0 })), // Establecemos discount a 0 para mostrar el precio neto directo
         ...products.filter(p => p.discount > 0)
       ] as Product[];
     }

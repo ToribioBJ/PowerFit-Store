@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaArrowLeft, FaShoppingCart, FaExclamationTriangle } from 'react-icons/fa';
-import productsData from '../../data/products.json';
 import type { Product } from '../../interfaces';
 import { useCart } from '../../context/CartContext';
-import { ProductCard } from '../Catalog';
+import { useStore } from '../../context/StoreContext';
+import { ProductCard } from '../Catalog/Catalog';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const products: Product[] = productsData as Product[];
+  const { products } = useStore();
   const { addToCart } = useCart();
 
   // Find product by id

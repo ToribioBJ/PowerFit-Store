@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaArrowLeft, FaShoppingCart, FaExclamationTriangle, FaCheckCircle, FaDumbbell, FaAppleAlt, FaFire, FaBolt } from 'react-icons/fa';
-import promotionsData from '../../data/promotions.json';
-import type { Promotion, Product } from '../../interfaces';
+import type { Product } from '../../interfaces';
 import { useCart } from '../../context/CartContext';
+import { useStore } from '../../context/StoreContext';
 
 const PromotionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const promotions: Promotion[] = promotionsData as Promotion[];
+  const { promotions } = useStore();
   const { addToCart } = useCart();
 
   // Find promotion by id

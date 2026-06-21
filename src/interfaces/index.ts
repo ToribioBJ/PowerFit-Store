@@ -56,3 +56,13 @@ export interface Promotion {
   };
 }
 
+export interface Order {
+  id: string;
+  date: string;
+  items: CartItem[];
+  total: number;
+  customerName: string;
+  customerPhone: string;
+  status: 'Pendiente' | 'Enviado' | 'Completado' | 'Cancelado';
+}
+

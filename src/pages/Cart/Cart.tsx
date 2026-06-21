@@ -2,16 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaTrash, FaWhatsapp, FaArrowLeft, FaShoppingBag } from 'react-icons/fa';
 import { useCart } from '../../context/CartContext';
+import { useStore } from '../../context/StoreContext';
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
+  const { addOrder } = useStore();
 
   // WhatsApp checkout details
   const whatsappNumber = '51924215942'; // Configurado para Perú (+51)
 
   const handleWhatsAppCheckout = () => {
+    const customerName = prompt('Por favor, ingresa tu nombre completo para coordinar por WhatsApp:') || 'Cliente Web';
+    const customerPhone = prompt('Por favor, ingresa tu número de teléfono de contacto:') || 'Sin teléfono';
+
+    // Registrar pedido en StoreContext (esto reduce existencias y guarda en historial)
+    addOrder(cartItems, cartTotal, customerName, customerPhone);
+
     // Generate text message for WhatsApp
     let message = '¡Hola Nerito Suplements! Deseo realizar el siguiente pedido:\n\n';
+    message += `*Cliente:* ${customerName}\n`;
+    message += `*Teléfono:* ${customerPhone}\n\n`;
     message += '*Productos:*\n';
 
     cartItems.forEach((item) => {
@@ -28,6 +38,9 @@ const Cart: React.FC = () => {
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
     window.open(whatsappUrl, '_blank');
+    
+    // Vaciar el carrito tras compra exitosa
+    clearCart();
   };
 
   const isCartEmpty = cartItems.length === 0;

@@ -5,9 +5,8 @@ import {
   FaAward,
   FaWhatsapp
 } from 'react-icons/fa';
-import productsData from '../../data/products.json';
-import promotionsData from '../../data/promotions.json';
-import type { Product, Promotion } from '../../interfaces';
+import type { Product } from '../../interfaces';
+import { useStore } from '../../context/StoreContext';
 
 const FeaturedProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -83,11 +82,14 @@ const Home: React.FC = () => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  const stories = [
-    { id: 1, image: "/src/assets/PROMOCIONES/PROMOCION1.png", link: "/promocion/101", promoId: 101 },
-    { id: 2, image: "/src/assets/PROMOCIONES/PROMOCION2.png", link: "/promocion/102", promoId: 102 },
-    { id: 3, image: "/src/assets/PROMOCIONES/PROMOCION3.png", link: "/promocion/103", promoId: 103 }
-  ];
+  const { products, promotions } = useStore();
+
+  const stories = promotions.map((promo, idx) => ({
+    id: idx + 1,
+    image: promo.image,
+    link: `/promocion/${promo.id}`,
+    promoId: promo.id
+  }));
 
   const nextStory = () => {
     setActiveStory((prev) => (prev === stories.length - 1 ? 0 : prev + 1));
@@ -175,10 +177,7 @@ const Home: React.FC = () => {
     if (diff < -total / 2) diff += total;
     return diff;
   };
-  // Cast productsData to Product[] to guarantee typing safety
-  const products: Product[] = productsData as Product[];
-
-  // Filter featured products
+  // Featured products filtered from context
   const featuredProducts = products.filter(product => product.featured);
 
 
@@ -226,7 +225,7 @@ const Home: React.FC = () => {
                 const isNext = offset === 1;
 
                 // Find corresponding promotion data to get price and originalPrice
-                const promo = (promotionsData as Promotion[]).find(p => p.id === story.promoId);
+                const promo = promotions.find(p => p.id === story.promoId);
                 const price = promo ? promo.price : 0;
                 const originalPrice = promo ? promo.originalPrice : 0;
 

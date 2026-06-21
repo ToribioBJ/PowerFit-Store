@@ -87,9 +87,12 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Copyright Bar */}
-      <div className="bg-primary/80 border-t border-border-brand/40 py-6 text-center text-[0.85rem] text-text-muted">
-        <div className="container">
+      <div className="bg-primary/80 border-t border-border-brand/40 py-6 text-[0.85rem] text-text-muted">
+        <div className="container flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
           <p>&copy; {currentYear} NERITO Suplements. Todos los derechos reservados. Diseñado para atletas.</p>
+          <Link to="/admin" className="text-text-muted hover:text-accent font-extrabold uppercase tracking-wider text-[0.72rem] transition-colors duration-200">
+            Panel Admin 🔒
+          </Link>
         </div>
       </div>
     </footer>

@@ -330,3 +330,39 @@
   from { width: 0%; }
   to   { width: 100%; }
 }
+
+/* Custom Admin Panel Design System Utilities */
+@utility admin-kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  &:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow-accent);
+    transform: translateY(-4px);
+  }
+}
+
+@utility admin-glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 16px;
+}
+
+@utility admin-neon-tag {
+  font-family: var(--font-title);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  box-shadow: 0 0 10px rgba(146, 58, 43, 0.2);
+}
