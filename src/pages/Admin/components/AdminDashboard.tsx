@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useStore } from '../../../context/StoreContext';
 import type { Product } from '../../../interfaces';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaWallet, FaClipboardList, FaChartLine, FaBoxes } from 'react-icons/fa';
 
 interface AdminDashboardProps {
   onEditProduct: (p: Product) => void;
@@ -98,8 +98,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Card 1 */}
-        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden">
+        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden cursor-default">
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/15 transition-all duration-300"></div>
+          <FaWallet className="absolute right-4 bottom-4 text-[4.5rem] text-text-primary/[0.03] group-hover:text-accent/[0.08] transition-all duration-500 pointer-events-none group-hover:scale-110" />
           <div className="flex justify-between items-start">
             <div className="text-[0.7rem] font-title font-black uppercase text-text-muted tracking-wider">Ingresos Totales (S/)</div>
             <span className="text-[0.6rem] bg-emerald-500/10 text-emerald-400 font-extrabold uppercase py-0.5 px-2 rounded-full tracking-wider border border-emerald-500/25">
@@ -116,8 +117,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
         </div>
 
         {/* Card 2 */}
-        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden">
+        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden cursor-default">
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/15 transition-all duration-300"></div>
+          <FaClipboardList className="absolute right-4 bottom-4 text-[4.5rem] text-text-primary/[0.03] group-hover:text-text-primary/[0.08] transition-all duration-500 pointer-events-none group-hover:scale-110" />
           <div className="flex justify-between items-start">
             <div className="text-[0.7rem] font-title font-black uppercase text-text-muted tracking-wider">Pedidos Totales</div>
             <span className="text-[0.6rem] bg-amber-500/10 text-amber-400 font-extrabold uppercase py-0.5 px-2 rounded-full tracking-wider border border-amber-500/25">
@@ -133,8 +135,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
         </div>
 
         {/* Card 3 */}
-        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden">
+        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden cursor-default">
           <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/15 transition-all duration-300"></div>
+          <FaChartLine className="absolute right-4 bottom-4 text-[4.5rem] text-text-primary/[0.03] group-hover:text-accent/[0.08] transition-all duration-500 pointer-events-none group-hover:scale-110" />
           <div className="flex justify-between items-start">
             <div className="text-[0.7rem] font-title font-black uppercase text-text-muted tracking-wider">Ticket Promedio</div>
             <span className="text-[0.6rem] bg-accent/10 text-accent font-extrabold uppercase py-0.5 px-2 rounded-full tracking-wider border border-accent/25">
@@ -148,8 +151,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
         </div>
 
         {/* Card 4 */}
-        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden">
+        <div className="admin-kpi-card p-6 flex flex-col justify-between relative group overflow-hidden cursor-default">
           <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rounded-full blur-2xl pointer-events-none group-hover:bg-red-600/15 transition-all duration-300"></div>
+          <FaBoxes className="absolute right-4 bottom-4 text-[4.5rem] text-text-primary/[0.03] group-hover:text-red-500/[0.08] transition-all duration-500 pointer-events-none group-hover:scale-110" />
           <div className="flex justify-between items-start">
             <div className="text-[0.7rem] font-title font-black uppercase text-text-muted tracking-wider">Alertas de Stock</div>
             <span className={`text-[0.6rem] font-extrabold uppercase py-0.5 px-2 rounded-full tracking-wider border
@@ -171,10 +175,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
         {/* Sales Chart Card */}
         <div className="admin-glass-panel p-6 flex flex-col shadow-2xl">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-base font-title font-extrabold uppercase tracking-wider flex items-center gap-2">
-              <span className="w-1.5 h-3.5 bg-accent rounded-full shadow-glow"></span>
-              Tendencia de Ventas (Últimos 7 Días)
-            </h3>
+            <div>
+              <h3 className="text-base font-title font-extrabold uppercase tracking-wider flex items-center gap-2">
+                <span className="w-1.5 h-3.5 bg-accent rounded-full shadow-glow"></span>
+                Tendencia de Ventas (Últimos 7 Días)
+              </h3>
+              <p className="text-[0.68rem] text-text-secondary mt-1">
+                💡 Haz clic en una barra para filtrar y detallar los productos vendidos de ese día.
+              </p>
+            </div>
             {selectedTrendDayIdx !== null && (
               <button
                 onClick={() => setSelectedTrendDayIdx(null)}
@@ -217,7 +226,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
                 const barX = idx * colWidthPercentage + (colWidthPercentage - barWidth) / 2;
 
                 return (
-                  <g key={idx}>
+                  <g key={idx} className="group cursor-pointer">
                     {/* Background Hover & Selection Area Hotspot (Ancho completo) */}
                     <rect
                       x={`${idx * colWidthPercentage}%`}
@@ -227,10 +236,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
                       rx="12"
                       fill="var(--accent)"
                       opacity={selectedTrendDayIdx === idx ? 0.08 : 0}
-                      className={`transition-all duration-300 cursor-pointer ${
+                      className={`transition-all duration-300 ${
                         selectedTrendDayIdx === idx
-                          ? 'hover:opacity-[0.12]'
-                          : 'hover:opacity-[0.04]'
+                          ? 'group-hover:opacity-[0.12]'
+                          : 'group-hover:opacity-[0.04]'
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -246,7 +255,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
                       height="20"
                       className="pointer-events-none"
                     >
-                      <div className={`text-[0.7rem] text-center font-black transition-all duration-200 ${
+                      <div className={`text-[0.7rem] text-center font-black transition-all duration-200 group-hover:text-accent group-hover:scale-105 ${
                         selectedTrendDayIdx === idx ? 'text-accent scale-105' : 'text-text-muted/70'
                       }`}>
                         S/ {t.sales.toFixed(0)}
@@ -264,7 +273,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
                       stroke={selectedTrendDayIdx === idx ? "var(--accent)" : "var(--border-glow)"}
                       strokeWidth={selectedTrendDayIdx === idx ? "2" : "1"}
                       filter={selectedTrendDayIdx === idx ? "drop-shadow(0 0 6px var(--accent))" : ""}
-                      className="transition-all duration-300 pointer-events-none"
+                      className="transition-all duration-300 pointer-events-none origin-bottom group-hover:scale-y-[1.03] group-hover:fill-accent group-hover:filter-[drop-shadow(0_0_8px_var(--accent))]"
                     />
 
                     {/* X-Axis Label */}
@@ -275,7 +284,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onEditProduct, onViewOr
                       height="20"
                       className="pointer-events-none"
                     >
-                      <div className={`text-[0.75rem] font-bold text-center uppercase transition-colors duration-200 ${
+                      <div className={`text-[0.75rem] font-bold text-center uppercase transition-colors duration-200 group-hover:text-accent group-hover:font-black ${
                         selectedTrendDayIdx === idx ? 'text-accent font-black scale-105' : 'text-text-secondary'
                       }`}>
                         {t.day}

@@ -4,6 +4,7 @@ import { FaArrowLeft, FaShoppingCart, FaExclamationTriangle, FaCheckCircle, FaDu
 import type { Product } from '../../interfaces';
 import { useCart } from '../../context/CartContext';
 import { useStore } from '../../context/StoreContext';
+import { PromoCard } from '../Catalog/Catalog';
 
 const PromotionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -248,32 +249,13 @@ const PromotionDetail: React.FC = () => {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[800px] mx-auto">
-            {otherPromotions.map((p) => {
-              const currentSavings = p.originalPrice - p.price;
-              return (
-                <article key={p.id} className="card-premium flex flex-col justify-between group p-4">
-                  <div className="relative bg-white rounded-xl overflow-hidden mb-4 aspect-[16/10] flex items-center justify-center p-3 border border-border-brand/10">
-                    <span className="absolute top-3 left-3 bg-gradient-to-r from-accent to-[#A84433] text-white font-title font-black text-[0.6rem] uppercase py-1 px-2.5 rounded shadow z-10 tracking-wider">
-                      AHORRA S/ {currentSavings.toFixed(2)}
-                    </span>
-                    <img src={p.image} alt={p.name} className="max-w-[85%] max-h-[85%] object-contain transition-all duration-500 group-hover:scale-105" />
-                  </div>
-                  <div>
-                    <h3 className="text-[1.15rem] mb-1.5 leading-snug font-title font-extrabold text-text-primary group-hover:text-accent transition-colors duration-300">{p.name}</h3>
-                    <p className="text-[0.8rem] text-text-secondary line-clamp-2 mb-3">{p.description}</p>
-                  </div>
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="flex gap-2 items-end">
-                      <span className="text-text-muted text-[0.9rem] line-through font-semibold">S/ {p.originalPrice.toFixed(2)}</span>
-                      <span className="font-title font-black text-accent text-[1.2rem]">S/ {p.price.toFixed(2)}</span>
-                    </div>
-                  </div>
-                  <Link to={`/promocion/${p.id}`} className="w-full btn-secondary text-center py-2 text-[0.75rem] tracking-wider uppercase font-extrabold">
-                    Ver Detalles Combo
-                  </Link>
-                </article>
-              );
-            })}
+            {otherPromotions.map((p) => (
+              <PromoCard
+                key={p.id}
+                promo={p}
+                addToCart={addToCart}
+              />
+            ))}
           </div>
         </section>
       </div>

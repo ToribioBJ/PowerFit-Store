@@ -102,6 +102,20 @@ const ProductFormModal: React.FC<ProductFormModalProps> = ({ isOpen, onClose, pr
     formCalories
   ]);
 
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, setImage: (val: string) => void) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const productPayload = {
@@ -244,29 +258,68 @@ const ProductFormModal: React.FC<ProductFormModalProps> = ({ isOpen, onClose, pr
               </label>
             </div>
 
-            {/* Images */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[0.68rem] uppercase text-text-secondary font-black tracking-widest">URL Imagen Frontal</label>
-              <input
-                type="text"
-                required
-                placeholder="/src/assets/..."
-                className="bg-primary/50 border border-border-brand/50 text-text-primary placeholder:text-text-muted/40 py-2.5 px-4 rounded-xl text-sm outline-none focus:border-accent/80 focus:bg-primary/70 focus:ring-1 focus:ring-accent/40 focus:shadow-glow-accent transition-all duration-300"
-                value={formImage}
-                onChange={(e) => setFormImage(e.target.value)}
-              />
+            {/* Images with File Uploader */}
+            <div className="md:col-span-2 border-t border-border-brand/20 pt-4 mt-2">
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="text-xs font-title font-extrabold uppercase tracking-widest text-accent flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
+                  Imágenes del Producto
+                </h4>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Imagen Frontal */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[0.68rem] uppercase text-text-secondary font-black tracking-widest">Imagen Frontal (Catálogo)</label>
+                  <div className="flex items-center gap-3 bg-primary/30 p-2.5 border border-border-brand/40 rounded-xl">
+                    <div className="w-12 h-12 rounded-lg bg-white border border-border-brand/35 flex items-center justify-center overflow-hidden shrink-0 p-0.5">
+                      {formImage ? (
+                        <img src={formImage} alt="Frontal preview" className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-[0.6rem] text-text-muted">Sin img</span>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1 min-w-0">
+                      <label className="flex items-center justify-center gap-1.5 bg-accent hover:bg-accent-hover text-white text-[0.7rem] font-title font-black uppercase px-3 py-2.5 rounded-lg cursor-pointer transition-all shadow-sm border-0 text-center">
+                        Seleccionar Archivo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => handleFileChange(e, setFormImage)}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Imagen Hover / Ficha */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[0.68rem] uppercase text-text-secondary font-black tracking-widest">Imagen Ficha (Detalle / Nutrición)</label>
+                  <div className="flex items-center gap-3 bg-primary/30 p-2.5 border border-border-brand/40 rounded-xl">
+                    <div className="w-12 h-12 rounded-lg bg-white border border-border-brand/35 flex items-center justify-center overflow-hidden shrink-0 p-0.5">
+                      {formHoverImage ? (
+                        <img src={formHoverImage} alt="Hover preview" className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-[0.6rem] text-text-muted">Sin img</span>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1 min-w-0">
+                      <label className="flex items-center justify-center gap-1.5 bg-accent hover:bg-accent-hover text-white text-[0.7rem] font-title font-black uppercase px-3 py-2.5 rounded-lg cursor-pointer transition-all shadow-sm border-0 text-center">
+                        Seleccionar Archivo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => handleFileChange(e, setFormHoverImage)}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[0.68rem] uppercase text-text-secondary font-black tracking-widest">URL Imagen Ficha (Nutricional)</label>
-              <input
-                type="text"
-                required
-                placeholder="/src/assets/..."
-                className="bg-primary/50 border border-border-brand/50 text-text-primary placeholder:text-text-muted/40 py-2.5 px-4 rounded-xl text-sm outline-none focus:border-accent/80 focus:bg-primary/70 focus:ring-1 focus:ring-accent/40 focus:shadow-glow-accent transition-all duration-300"
-                value={formHoverImage}
-                onChange={(e) => setFormHoverImage(e.target.value)}
-              />
-            </div>
+
 
             {/* Description */}
             <div className="md:col-span-2 flex flex-col gap-1.5">

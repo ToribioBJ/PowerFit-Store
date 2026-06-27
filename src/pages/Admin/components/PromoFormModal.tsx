@@ -62,6 +62,20 @@ const PromoFormModal: React.FC<PromoFormModalProps> = ({ isOpen, onClose, promot
     promoStock
   ]);
 
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, setImage: (val: string) => void) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (promotion) {
@@ -155,16 +169,31 @@ const PromoFormModal: React.FC<PromoFormModalProps> = ({ isOpen, onClose, promot
                 onChange={(e) => setPromoStock(Number(e.target.value))}
               />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[0.68rem] uppercase text-text-secondary font-black tracking-widest">URL Imagen</label>
-              <input
-                type="text"
-                required
-                placeholder="/src/assets/PROMOCIONES/..."
-                className="bg-primary/50 border border-border-brand/50 text-text-primary placeholder:text-text-muted/40 py-2.5 px-4 rounded-xl text-sm outline-none focus:border-accent/80 focus:bg-primary/70 transition-all duration-300"
-                value={promoImage}
-                onChange={(e) => setPromoImage(e.target.value)}
-              />
+            {/* Imagen con File Uploader */}
+            <div className="flex flex-col gap-1.5 md:col-span-1">
+              <div className="flex justify-between items-center">
+                <label className="text-[0.68rem] uppercase text-text-secondary font-black tracking-widest">Imagen Promocional</label>
+              </div>
+              <div className="flex items-center gap-3 bg-primary/30 p-2.5 border border-border-brand/40 rounded-xl">
+                <div className="w-12 h-12 rounded-lg bg-white border border-border-brand/35 flex items-center justify-center overflow-hidden shrink-0 p-0.5">
+                  {promoImage ? (
+                    <img src={promoImage} alt="Promo preview" className="w-full h-full object-contain" />
+                  ) : (
+                    <span className="text-[0.6rem] text-text-muted">Sin img</span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1 flex-1 min-w-0">
+                  <label className="flex items-center justify-center gap-1.5 bg-accent hover:bg-accent-hover text-white text-[0.7rem] font-title font-black uppercase px-3 py-2.5 rounded-lg cursor-pointer transition-all shadow-sm border-0 text-center">
+                    Seleccionar Archivo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleFileChange(e, setPromoImage)}
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
 
             {/* Description */}
@@ -208,37 +237,78 @@ const PromoFormModal: React.FC<PromoFormModalProps> = ({ isOpen, onClose, promot
           {/* Combo Card styled identically to storefront */}
           <div className="relative w-full max-w-[280px] mt-6 group">
             <div className="absolute -inset-1.5 bg-gradient-to-r from-accent to-[#b34835] rounded-2xl blur-md opacity-15 pointer-events-none" />
-            <div className="admin-glass-panel p-5 flex flex-col justify-between relative bg-gradient-to-b from-[#18110f]/80 to-[#0e0b0a] border border-border-brand/40 rounded-2xl w-full h-[400px] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-              <div>
-                {/* Savings Badge */}
-                <span className="absolute top-4 left-4 bg-gradient-to-r from-accent to-[#A84433] text-white font-title font-black text-[0.62rem] uppercase py-1.5 px-3 rounded shadow-[0_4px_10px_rgba(146,58,43,0.35)] z-10 tracking-widest">
-                  Ahorra S/ {(previewPromo.originalPrice - previewPromo.price).toFixed(2)}
-                </span>
-                {/* Image */}
-                <div className="relative bg-white rounded-xl overflow-hidden aspect-[16/10] mb-4 flex items-center justify-center p-3 border border-border-brand/20 shadow-[inset_0_2px_10px_rgba(0,0,0,0.06)]">
-                  <img src={previewPromo.image} alt={previewPromo.name} className="max-w-[80%] max-h-[80%] object-contain" />
-                </div>
-                <h3 className="font-title font-extrabold text-sm mb-1 text-text-primary leading-tight">
-                  {previewPromo.name}
-                </h3>
-                <p className="text-[0.7rem] text-text-secondary line-clamp-3 mb-4 leading-relaxed">
-                  {previewPromo.description}
-                </p>
+                      <div tabIndex={0} className="admin-glass-panel relative overflow-hidden h-[400px] rounded-2xl border border-border-brand/40 group hover:border-accent/50 hover:shadow-glow-accent focus-within:border-accent/50 focus-within:shadow-glow-accent outline-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] w-full">
+              {/* Shimmer light effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none z-30" />
+
+              {/* Savings Badge */}
+              <span className="absolute top-4 left-4 bg-gradient-to-r from-accent to-[#A84433] text-white font-title font-black text-[0.62rem] uppercase py-1.5 px-3 rounded shadow-[0_4px_10px_rgba(146,58,43,0.35)] z-10 tracking-widest pointer-events-none">
+                Ahorra S/ {(previewPromo.originalPrice - previewPromo.price).toFixed(2)}
+              </span>
+
+              {/* Image Container with Ambient Glowing Halo */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#1c1411] to-[#0c0908] flex items-center justify-center p-6 transition-all duration-500 overflow-hidden">
+                <div className="absolute w-[240px] h-[240px] rounded-full bg-accent/15 blur-[60px] pointer-events-none" />
+                <img 
+                  src={previewPromo.image} 
+                  alt={previewPromo.name} 
+                  className="max-w-[95%] max-h-[95%] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)] rounded-lg transition-transform duration-500 group-hover:scale-103" 
+                />
               </div>
-              <div>
-                <div className="flex items-center justify-between mb-4 border-t border-border-brand/30 pt-3">
-                  <div>
-                    <span className="text-[0.55rem] text-text-muted uppercase font-bold tracking-widest block">Precio Combo</span>
-                    <span className="text-base font-title font-black text-accent">S/ {previewPromo.price.toFixed(2)}</span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[0.55rem] text-text-muted uppercase font-bold tracking-widest block">Original</span>
-                    <span className="text-[0.7rem] font-bold text-text-secondary line-through">S/ {previewPromo.originalPrice.toFixed(2)}</span>
+
+              {/* Details Overlay (slides up and fades in on hover/focus) */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#1c1210]/98 via-[#130d0b]/99 to-[#0a0706] p-5 flex flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] translate-y-full group-hover:translate-y-0 group-focus-within:translate-y-0 group-active:translate-y-0 border-t border-accent/25 z-20 overflow-y-auto scrollbar-none">
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-title font-extrabold text-base text-white leading-tight text-left">
+                    {previewPromo.name}
+                  </h3>
+                  <p className="text-xs text-white/70 leading-relaxed line-clamp-4 font-sans text-left">
+                    {previewPromo.description}
+                  </p>
+
+                  {/* High Contrast Products list detail rendered as solid red pills */}
+                  <div className="bg-black/40 border border-white/10 p-3.5 rounded-xl text-white shadow-inner text-left">
+                    <span className="text-[0.62rem] text-white/50 font-black uppercase tracking-widest block mb-2.5">
+                      Contenido del Combo:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {previewPromo.productsIncluded && previewPromo.productsIncluded.length > 0 ? (
+                        previewPromo.productsIncluded.map(prod => (
+                          <span key={prod.id} className="text-[0.62rem] bg-accent text-white px-2.5 py-1.5 rounded-lg font-black flex items-center gap-1.5 uppercase tracking-wider shadow-[0_2px_8px_rgba(146,58,43,0.35)] border border-white/10 shrink-0">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0"></span>
+                            {prod.name}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-[0.62rem] text-white/40 italic">Ningún producto asignado</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="flex justify-between items-center bg-primary/50 border border-border-brand/40 rounded-xl p-2.5">
-                  <span className="text-[0.62rem] text-text-secondary font-bold">Stock Combo:</span>
-                  <span className={`text-xs font-black ${previewPromo.stock <= 5 ? 'text-red-500' : 'text-text-primary'}`}>{previewPromo.stock} u.</span>
+
+                <div>
+                  {/* Pricing block with glowing background orb */}
+                  <div className="flex items-center justify-between mb-4 border-t border-white/10 pt-3.5 relative">
+                    <div className="absolute right-0 bottom-2 w-16 h-16 rounded-full bg-accent/10 blur-xl pointer-events-none" />
+                    <div className="text-left">
+                      <span className="text-[0.55rem] text-white/50 uppercase font-bold tracking-widest block leading-none">Precio Combo</span>
+                      <span className="text-xl font-title font-black text-accent drop-shadow-[0_2px_8px_rgba(146,58,43,0.3)] mt-1.5 block">S/ {previewPromo.price.toFixed(2)}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[0.55rem] text-white/50 uppercase font-bold tracking-widest block leading-none">Original</span>
+                      <span className="text-xs font-bold text-white/40 line-through mt-2 block">S/ {previewPromo.originalPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
+                    <div className="btn-primary py-2 px-4 text-[0.7rem] tracking-wider font-extrabold text-center opacity-75 select-none border-0">
+                      Añadir al Carrito
+                    </div>
+                    <div className="bg-white/[0.06] border border-white/10 rounded-xl px-3 py-1.5 flex flex-col items-center justify-center shrink-0">
+                      <span className="text-[0.55rem] text-white/40 uppercase font-bold tracking-wider leading-none">Stock</span>
+                      <span className={`text-xs font-black mt-1 leading-none ${previewPromo.stock <= 5 ? 'text-red-400' : 'text-white'}`}>{previewPromo.stock} u.</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

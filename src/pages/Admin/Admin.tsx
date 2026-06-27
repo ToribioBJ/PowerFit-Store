@@ -47,6 +47,10 @@ const Admin: React.FC = () => {
 
   return (
     <div className="py-6 md:py-12 min-h-screen container mx-auto px-4 animate-fadeIn relative z-10">
+      {/* Decorative ambient glowing orbs */}
+      <div className="absolute top-[10%] left-[-5%] w-[350px] h-[350px] rounded-full bg-accent/5 blur-[120px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="absolute bottom-[20%] right-[-5%] w-[450px] h-[450px] rounded-full bg-accent/3 blur-[140px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '12s' }} />
+
       <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8 items-start">
         {/* SIDEBAR */}
         <AdminSidebar

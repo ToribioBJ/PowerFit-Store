@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FaChartBar,
   FaBox,
   FaExclamationTriangle,
   FaTags,
   FaClipboardList,
-  FaUserShield
+  FaUserShield,
+  FaSignOutAlt,
+  FaStore
 } from 'react-icons/fa';
+import { useAuth } from '../../../context/AuthContext';
 
 interface AdminSidebarProps {
   activeTab: 'dashboard' | 'products' | 'alerts' | 'promotions' | 'orders';
@@ -22,6 +25,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   lowStockCount,
   pendingOrdersCount
 }) => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <aside className="admin-glass-panel rounded-[24px] lg:rounded-[32px] p-4 lg:p-6 flex flex-col gap-4 lg:gap-6 w-full min-w-0 lg:sticky lg:top-[30px] z-20 shadow-[0_15px_50px_rgba(0,0,0,0.06)]">
       <div className="px-1 pb-2 lg:pb-4 border-b border-border-brand/40 flex items-center justify-between">
@@ -46,8 +57,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           onClick={() => setActiveTab('dashboard')}
           className={`flex items-center gap-2 lg:gap-3.5 w-max lg:w-full px-3.5 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer shrink-0 border-0
             ${activeTab === 'dashboard'
-              ? 'bg-accent text-white shadow-glow-accent'
-              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary'
+              ? 'bg-gradient-to-r from-accent to-[#A84433] text-white shadow-glow-accent scale-[1.02]'
+              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary lg:hover:translate-x-1.5 hover:scale-[1.02]'
             }`}
         >
           <FaChartBar className="text-[1rem] lg:text-[1.1rem]" /> Dashboard
@@ -57,8 +68,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           onClick={() => setActiveTab('products')}
           className={`flex items-center gap-2 lg:gap-3.5 w-max lg:w-full px-3.5 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer shrink-0 border-0
             ${activeTab === 'products'
-              ? 'bg-accent text-white shadow-glow-accent'
-              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary'
+              ? 'bg-gradient-to-r from-accent to-[#A84433] text-white shadow-glow-accent scale-[1.02]'
+              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary lg:hover:translate-x-1.5 hover:scale-[1.02]'
             }`}
         >
           <FaBox className="text-[1rem] lg:text-[1.1rem]" /> Inventario
@@ -68,8 +79,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           onClick={() => setActiveTab('alerts')}
           className={`flex items-center justify-between w-max lg:w-full px-3.5 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer shrink-0 border-0
             ${activeTab === 'alerts'
-              ? 'bg-accent text-white shadow-glow-accent'
-              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary'
+              ? 'bg-gradient-to-r from-accent to-[#A84433] text-white shadow-glow-accent scale-[1.02]'
+              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary lg:hover:translate-x-1.5 hover:scale-[1.02]'
             }`}
         >
           <div className="flex items-center gap-2 lg:gap-3.5">
@@ -91,8 +102,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           onClick={() => setActiveTab('promotions')}
           className={`flex items-center gap-2 lg:gap-3.5 w-max lg:w-full px-3.5 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer shrink-0 border-0
             ${activeTab === 'promotions'
-              ? 'bg-accent text-white shadow-glow-accent'
-              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary'
+              ? 'bg-gradient-to-r from-accent to-[#A84433] text-white shadow-glow-accent scale-[1.02]'
+              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary lg:hover:translate-x-1.5 hover:scale-[1.02]'
             }`}
         >
           <FaTags className="text-[1rem] lg:text-[1.1rem]" /> Promociones
@@ -102,8 +113,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           onClick={() => setActiveTab('orders')}
           className={`flex items-center justify-between w-max lg:w-full px-3.5 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer shrink-0 border-0
             ${activeTab === 'orders'
-              ? 'bg-accent text-white shadow-glow-accent'
-              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary'
+              ? 'bg-gradient-to-r from-accent to-[#A84433] text-white shadow-glow-accent scale-[1.02]'
+              : 'text-text-primary hover:bg-primary/15 hover:text-text-primary lg:hover:translate-x-1.5 hover:scale-[1.02]'
             }`}
         >
           <div className="flex items-center gap-2 lg:gap-3.5">
@@ -121,6 +132,25 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           )}
         </button>
       </nav>
+
+      {/* Action Buttons */}
+      <div className="border-t border-border-brand/40 pt-3 lg:pt-4 mt-2 lg:mt-auto flex flex-row lg:flex-col gap-2 w-full">
+        <Link
+          to="/"
+          className="flex-1 flex items-center justify-center lg:justify-start gap-2 lg:gap-3.5 px-3 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer border border-border-brand/40 text-text-primary hover:bg-primary/15 hover:text-text-primary no-underline text-center lg:w-full"
+        >
+          <FaStore className="text-[1rem] lg:text-[1.1rem]" />
+          <span className="hidden sm:inline lg:inline">Volver a </span>Tienda
+        </Link>
+        <button
+          onClick={handleLogout}
+          className="flex-1 flex items-center justify-center lg:justify-start gap-2 lg:gap-3.5 px-3 py-2.5 lg:px-5 lg:py-4 rounded-xl lg:rounded-2xl font-title font-black text-[0.72rem] lg:text-[0.8rem] uppercase tracking-widest transition-all duration-300 cursor-pointer border border-red-500/25 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] lg:w-full"
+        >
+          <FaSignOutAlt className="text-[1rem] lg:text-[1.1rem]" />
+          <span className="hidden sm:inline lg:inline">Cerrar Sesión</span>
+          <span className="inline sm:hidden lg:hidden">Salir</span>
+        </button>
+      </div>
     </aside>
   );
 };

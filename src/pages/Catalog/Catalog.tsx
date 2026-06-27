@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaInfoCircle, FaInbox, FaTimes } from 'react-icons/fa';
-import type { Product } from '../../interfaces';
+import type { Product, Promotion } from '../../interfaces';
 import { useCart } from '../../context/CartContext';
 import { useStore } from '../../context/StoreContext';
 
@@ -92,6 +92,103 @@ export const ProductCard: React.FC<{
   );
 };
 
+export const PromoCard: React.FC<{
+  promo: Promotion;
+  addToCart: (p: Product, qty: number) => void;
+}> = ({ promo, addToCart }) => {
+  const savings = promo.originalPrice - promo.price;
+  
+  return (
+    <article tabIndex={0} className="admin-glass-panel relative overflow-hidden h-[400px] rounded-2xl border border-border-brand/40 group hover:border-accent/50 hover:shadow-glow-accent focus-within:border-accent/50 focus-within:shadow-glow-accent outline-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] w-full">
+      {/* Shimmer light effect on hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none z-30" />
+
+      {/* Savings Badge */}
+      <span className="absolute top-4 left-4 bg-gradient-to-r from-accent to-[#A84433] text-white font-title font-black text-[0.62rem] uppercase py-1.5 px-3 rounded shadow-[0_4px_10px_rgba(146,58,43,0.35)] z-10 tracking-widest pointer-events-none">
+        Ahorra S/ {savings.toFixed(2)}
+      </span>
+
+      {/* Image Container with Ambient Glowing Halo */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1411] to-[#0c0908] flex items-center justify-center p-6 transition-all duration-500 overflow-hidden">
+        <div className="absolute w-[240px] h-[240px] rounded-full bg-accent/15 blur-[60px] pointer-events-none" />
+        <img 
+          src={promo.image} 
+          alt={promo.name} 
+          className="max-w-[95%] max-h-[95%] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)] rounded-lg transition-transform duration-500 group-hover:scale-103" 
+        />
+      </div>
+
+      {/* Details Overlay (slides up and fades in on hover/focus) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1210]/98 via-[#130d0b]/99 to-[#0a0706] p-5 flex flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] translate-y-full group-hover:translate-y-0 group-focus-within:translate-y-0 group-active:translate-y-0 border-t border-accent/25 z-20 overflow-y-auto scrollbar-none">
+        <div className="flex flex-col gap-3">
+          <h3 className="font-title font-extrabold text-base text-white leading-tight text-left">
+            {promo.name}
+          </h3>
+          <p className="text-xs text-white/70 leading-relaxed line-clamp-4 font-sans text-left">
+            {promo.description}
+          </p>
+
+          {/* High Contrast Products list detail rendered as solid red pills */}
+          <div className="bg-black/40 border border-white/10 p-3.5 rounded-xl text-white shadow-inner text-left">
+            <span className="text-[0.62rem] text-white/50 font-black uppercase tracking-widest block mb-2.5">
+              Contenido del Combo:
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {promo.productsIncluded && promo.productsIncluded.length > 0 ? (
+                promo.productsIncluded.map(prod => (
+                  <span key={prod.id} className="text-[0.62rem] bg-accent text-white px-2.5 py-1.5 rounded-lg font-black flex items-center gap-1.5 uppercase tracking-wider shadow-[0_2px_8px_rgba(146,58,43,0.35)] border border-white/10 shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0"></span>
+                    {prod.name}
+                  </span>
+                ))
+              ) : (
+                <span className="text-[0.62rem] text-white/40 italic">Ningún producto asignado</span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          {/* Pricing block with glowing background orb */}
+          <div className="flex items-center justify-between mb-4 border-t border-white/10 pt-3.5 relative">
+            <div className="absolute right-0 bottom-2 w-16 h-16 rounded-full bg-accent/10 blur-xl pointer-events-none" />
+            <div className="text-left">
+              <span className="text-[0.55rem] text-white/50 uppercase font-bold tracking-widest block leading-none">Precio Combo</span>
+              <span className="text-xl font-title font-black text-accent drop-shadow-[0_2px_8px_rgba(146,58,43,0.3)] mt-1.5 block">S/ {promo.price.toFixed(2)}</span>
+            </div>
+            <div className="text-right">
+              <span className="text-[0.55rem] text-white/50 uppercase font-bold tracking-widest block leading-none">Original</span>
+              <span className="text-xs font-bold text-white/40 line-through mt-2 block">S/ {promo.originalPrice.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
+            <div className="flex gap-2 flex-1">
+              <button
+                onClick={() => addToCart(promo as unknown as Product, 1)}
+                className="btn-primary py-2 px-3 text-[0.7rem] tracking-wider font-extrabold cursor-pointer flex-1 border-0 flex items-center justify-center gap-1.5 shadow-glow hover:shadow-glow-accent transition-all duration-300"
+                title="Añadir al carrito"
+              >
+                <FaShoppingCart size={11} /> Añadir
+              </button>
+              <Link
+                to={`/promocion/${promo.id}`}
+                className="btn-secondary py-2 px-3 text-[0.7rem] tracking-wider font-extrabold text-center flex-1 flex items-center justify-center gap-1.5"
+              >
+                <FaInfoCircle size={11} /> Detalles
+              </Link>
+            </div>
+            <div className="bg-white/[0.06] border border-white/10 rounded-xl px-2.5 py-1.5 flex flex-col items-center justify-center shrink-0">
+              <span className="text-[0.5rem] text-white/40 uppercase font-bold tracking-wider leading-none">Stock</span>
+              <span className={`text-xs font-black mt-1 leading-none ${promo.stock <= 5 ? 'text-red-400' : 'text-white'}`}>{promo.stock} u.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
+
 const Catalog: React.FC = () => {
   const { products, promotions } = useStore();
   const { addToCart } = useCart();
@@ -105,7 +202,8 @@ const Catalog: React.FC = () => {
   // Categories list derived dynamically
   const categories = useMemo(() => {
     const cats = new Set(products.map(p => p.category));
-    return ['Todos', 'Promociones', ...Array.from(cats)];
+    const filteredCats = Array.from(cats).filter(c => c !== 'Promociones' && c !== 'Combos' && c !== 'Ofertas');
+    return ['Todos', 'Combos', 'Ofertas', ...filteredCats];
   }, [products]);
 
   // Brands list derived dynamically
@@ -121,13 +219,11 @@ const Catalog: React.FC = () => {
 
   // Filtered and sorted products
   const filteredProducts = useMemo(() => {
-    // Si la categoría seleccionada es 'Promociones', combinamos los combos de promoción y los productos individuales con descuento
     let baseProducts = [...products];
-    if (selectedCategory === 'Promociones') {
-      baseProducts = [
-        ...promotions.map(promo => ({ ...promo, discount: 0 })), // Establecemos discount a 0 para mostrar el precio neto directo
-        ...products.filter(p => p.discount > 0)
-      ] as Product[];
+    if (selectedCategory === 'Combos') {
+      baseProducts = promotions.map(promo => ({ ...promo, discount: 0 })) as unknown as Product[];
+    } else if (selectedCategory === 'Ofertas') {
+      baseProducts = products.filter(p => p.discount > 0);
     }
 
     const result = baseProducts.filter((product) => {
@@ -138,14 +234,15 @@ const Catalog: React.FC = () => {
       // 2. Category match
       const matchesCategory = 
         selectedCategory === 'Todos' || 
-        selectedCategory === 'Promociones' || // Ya filtrados en baseProducts
+        selectedCategory === 'Combos' || 
+        selectedCategory === 'Ofertas' || 
         product.category === selectedCategory;
       
       // 3. Brand match
       const matchesBrand = 
         selectedBrand === 'Todas' || 
         product.brand === selectedBrand ||
-        (selectedCategory === 'Promociones' && product.brand === 'PowerFit Combos'); // Mostrar combos siempre en la vista de promociones
+        (selectedCategory === 'Combos' && product.brand === 'PowerFit Combos');
 
       return matchesSearch && matchesCategory && matchesBrand;
     });
@@ -185,21 +282,23 @@ const Catalog: React.FC = () => {
         <div className="overflow-x-auto touch-pan-x scrollbar-none w-full scroll-smooth">
           <div className="flex items-center gap-2 pb-3 w-max">
             {categories.map((cat) => {
-              const isPromoTab = cat === 'Promociones';
+              const isCombos = cat === 'Combos';
+              const isOfertas = cat === 'Ofertas';
+              const isSpecial = isCombos || isOfertas;
               return (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
                   className={`font-title font-bold text-xs uppercase tracking-widest px-6 py-2.5 rounded-full transition-all duration-300 cursor-pointer relative border shrink-0
                     ${selectedCategory === cat 
-                      ? (isPromoTab ? 'bg-accent text-white border-accent shadow-glow-accent' : 'bg-accent text-white border-accent shadow-glow') 
-                      : (isPromoTab 
+                      ? (isSpecial ? 'bg-accent text-white border-accent shadow-glow-accent' : 'bg-accent text-white border-accent shadow-glow') 
+                      : (isSpecial 
                           ? 'bg-accent/10 text-accent border-accent/30 hover:bg-accent/20 hover:text-accent-hover' 
                           : 'bg-secondary/40 text-text-secondary border-border-brand/40 hover:text-white hover:border-text-secondary/30'
                         )
                     }`}
                 >
-                  {isPromoTab ? '🔥 Promociones' : cat}
+                  {isCombos ? '⚡ Combos' : isOfertas ? '🔥 Ofertas' : cat}
                 </button>
               );
             })}
@@ -270,14 +369,26 @@ const Catalog: React.FC = () => {
         {filteredProducts.length > 0 ? (
           /* Vista en Cuadrícula (Grid clásica) */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                getFinalPrice={getFinalPrice} 
-                addToCart={addToCart} 
-              />
-            ))}
+            {filteredProducts.map((product) => {
+              const isPromo = product.id >= 100;
+              if (isPromo) {
+                return (
+                  <PromoCard 
+                    key={product.id} 
+                    promo={product as unknown as Promotion} 
+                    addToCart={addToCart} 
+                  />
+                );
+              }
+              return (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  getFinalPrice={getFinalPrice} 
+                  addToCart={addToCart} 
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16 px-6 bg-secondary border border-border-brand rounded-lg">

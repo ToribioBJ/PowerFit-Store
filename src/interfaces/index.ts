@@ -66,3 +66,10 @@ export interface Order {
   status: 'Pendiente' | 'Enviado' | 'Completado' | 'Cancelado';
 }
 
+export interface User {
+  username: string;
+  email?: string;
+  role: 'admin' | 'client';
+}
+
+

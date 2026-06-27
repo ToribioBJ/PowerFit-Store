@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { FaBars, FaTimes, FaShoppingCart, FaTrash } from 'react-icons/fa';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes, FaShoppingCart, FaTrash, FaSignInAlt, FaSignOutAlt, FaUser, FaUserShield } from 'react-icons/fa';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import LoginModal from './LoginModal';
 
 const NAV_LINKS = [
   { to: '/', label: 'Inicio' },
@@ -13,9 +15,21 @@ const NAV_LINKS = [
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMiniCartOpen, setIsMiniCartOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartItems, cartCount, cartTotal, removeFromCart, updateQuantity } = useCart();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.openLogin) {
+      setIsLoginModalOpen(true);
+      // Limpiar el estado de ubicación para evitar bucles de redirección
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const prevCartCountRef = useRef(cartCount);
   const autoCloseTimerRef = useRef<number | undefined>(undefined);
@@ -90,7 +104,58 @@ const Navbar: React.FC = () => {
           {/* Right actions */}
           <div className="flex items-center gap-1.5 md:gap-2">
 
-
+            {/* Login / User Profile Dropdown (Desktop Only) */}
+            {user ? (
+              <div 
+                className="hidden md:block relative"
+                onMouseEnter={() => setIsUserMenuOpen(true)}
+                onMouseLeave={() => setIsUserMenuOpen(false)}
+              >
+                <button
+                  className="flex items-center gap-2 h-10 px-3.5 rounded-xl bg-white/8 border border-white/10 text-white/70 hover:text-white hover:bg-white/14 hover:border-white/20 transition-all duration-200 text-xs font-title font-extrabold cursor-pointer border-0"
+                >
+                  <FaUser className="text-[0.75rem] text-accent" />
+                  <span className="max-w-[90px] truncate text-[0.75rem] uppercase tracking-wider">{user.username}</span>
+                </button>
+                
+                {isUserMenuOpen && (
+                  <div className="absolute top-full right-0 pt-3 w-48 z-[1010] animate-fadeIn">
+                    <div className="bg-[#110E0B] border border-white/10 rounded-xl overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl p-1.5 flex flex-col gap-1">
+                      {user.role === 'admin' && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-[0.75rem] font-bold text-white/80 hover:text-white hover:bg-white/10 transition-colors uppercase tracking-wider"
+                        >
+                          <FaUserShield className="text-accent text-[0.85rem]" />
+                          Panel Admin
+                        </Link>
+                      )}
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsUserMenuOpen(false);
+                          navigate('/');
+                        }}
+                        className="flex items-center gap-2 w-full text-left px-3.5 py-2.5 rounded-lg text-[0.75rem] font-bold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors cursor-pointer border-0 uppercase tracking-wider font-title"
+                      >
+                        <FaSignOutAlt className="text-[0.8rem]" />
+                        Cerrar Sesión
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsLoginModalOpen(true)}
+                className="hidden md:flex items-center justify-center gap-1.5 h-10 px-3.5 rounded-xl bg-white/8 border border-white/10 text-white/70 hover:text-white hover:bg-white/14 hover:border-white/20 transition-all duration-200 text-[0.72rem] font-title font-extrabold uppercase tracking-widest cursor-pointer border-0"
+                title="Iniciar Sesión"
+              >
+                <FaSignInAlt className="text-[0.82rem]" />
+                <span className="hidden sm:inline">Iniciar Sesión</span>
+              </button>
+            )}
 
             {/* Cart + mini-cart */}
             <div
@@ -255,8 +320,56 @@ const Navbar: React.FC = () => {
           ))}
         </nav>
 
-
+        {/* Mobile Auth Section */}
+        <div className="p-4 border-t border-white/10 bg-white/[0.02] flex flex-col gap-3">
+          {user ? (
+            <>
+               <div className="flex items-center gap-3 px-3 py-1.5">
+                 <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent">
+                   <FaUser size={13} />
+                 </div>
+                 <div className="leading-none">
+                   <p className="text-xs font-black text-white/95 uppercase tracking-wide truncate">{user.username}</p>
+                   <p className="text-[0.62rem] text-text-secondary truncate mt-1">{user.email}</p>
+                 </div>
+               </div>
+               
+               {user.role === 'admin' && (
+                 <Link
+                   to="/admin"
+                   onClick={closeMobileMenu}
+                   className="flex items-center justify-center gap-2 h-11 w-full bg-accent/15 border border-accent/25 hover:bg-accent/25 text-white rounded-xl text-xs font-title font-extrabold uppercase tracking-wider transition-all duration-200"
+                 >
+                   <FaUserShield size={13} className="text-accent" /> Panel Admin
+                 </Link>
+               )}
+               
+               <button
+                 onClick={() => {
+                   logout();
+                   closeMobileMenu();
+                   navigate('/');
+                 }}
+                 className="flex items-center justify-center gap-2 h-11 w-full bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 rounded-xl text-xs font-title font-extrabold uppercase tracking-wider transition-all duration-200 cursor-pointer border-0"
+               >
+                 <FaSignOutAlt size={13} /> Cerrar Sesión
+               </button>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                closeMobileMenu();
+                setIsLoginModalOpen(true);
+              }}
+              className="flex items-center justify-center gap-2 h-11 w-full btn-primary text-xs font-title font-extrabold uppercase tracking-wider cursor-pointer border-0"
+            >
+              <FaSignInAlt size={13} /> Iniciar Sesión
+            </button>
+          )}
+        </div>
       </div>
+
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
   );
 };

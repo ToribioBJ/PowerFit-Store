@@ -13,23 +13,44 @@ const AdminInventory: React.FC<AdminInventoryProps> = ({ onEditProduct, onAddPro
 
   const [prodSearch, setProdSearch] = useState('');
   const [prodCategory, setProdCategory] = useState('Todos');
+  const [sortBy, setSortBy] = useState<string>('name-asc');
   const [inventoryViewMode, setInventoryViewMode] = useState<'table' | 'cards'>('table');
 
-  // Filtered Products List
+  // Filtered and Sorted Products List
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
+    let list = products.filter((p) => {
       const matchSearch = p.name.toLowerCase().includes(prodSearch.toLowerCase()) ||
         p.brand.toLowerCase().includes(prodSearch.toLowerCase());
       const matchCat = prodCategory === 'Todos' || p.category === prodCategory;
       return matchSearch && matchCat;
     });
-  }, [products, prodSearch, prodCategory]);
+
+    // Sorting logic
+    return [...list].sort((a, b) => {
+      if (sortBy === 'name-asc') {
+        return a.name.localeCompare(b.name);
+      }
+      if (sortBy === 'price-asc') {
+        return a.price - b.price;
+      }
+      if (sortBy === 'price-desc') {
+        return b.price - a.price;
+      }
+      if (sortBy === 'stock-asc') {
+        return a.stock - b.stock;
+      }
+      if (sortBy === 'stock-desc') {
+        return b.stock - a.stock;
+      }
+      return 0;
+    });
+  }, [products, prodSearch, prodCategory, sortBy]);
 
   return (
     <div className="flex flex-col gap-6 animate-fadeIn">
       {/* Action Bar (Search & Filter) */}
-      <div className="admin-glass-panel p-4 flex flex-col lg:flex-row gap-4 items-center justify-between shadow-xl">
-        <div className="flex flex-col sm:flex-row gap-3 w-full lg:max-w-xl">
+      <div className="admin-glass-panel p-4 flex flex-col xl:flex-row gap-4 items-center justify-between shadow-xl">
+        <div className="flex flex-col sm:flex-row gap-3 w-full xl:max-w-4xl">
           <input
             type="text"
             placeholder="Buscar por suplemento o marca..."
@@ -47,8 +68,19 @@ const AdminInventory: React.FC<AdminInventoryProps> = ({ onEditProduct, onAddPro
               <option key={c.id} value={c.name} className="bg-secondary text-text-primary">{c.name}</option>
             ))}
           </select>
+          <select
+            className="bg-primary/50 border border-border-brand/50 text-text-primary py-2.5 px-4 rounded-xl text-sm outline-none cursor-pointer focus:border-accent/80 focus:bg-primary/70 focus:ring-1 focus:ring-accent/40 transition-all duration-300"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="name-asc" className="bg-secondary text-text-primary">Ordenar por: Nombre (A-Z)</option>
+            <option value="price-asc" className="bg-secondary text-text-primary">Precio: Menor a Mayor</option>
+            <option value="price-desc" className="bg-secondary text-text-primary">Precio: Mayor a Menor</option>
+            <option value="stock-asc" className="bg-secondary text-text-primary">Stock: Menor a Mayor</option>
+            <option value="stock-desc" className="bg-secondary text-text-primary">Stock: Mayor a Menor</option>
+          </select>
         </div>
-        <div className="flex items-center gap-3 w-full lg:w-auto shrink-0">
+        <div className="flex items-center gap-3 w-full xl:w-auto shrink-0 justify-between xl:justify-end">
           {/* Selector de Modo de Vista */}
           <div className="flex items-center bg-primary/45 border border-border-brand/40 rounded-xl p-1 shrink-0">
             <button
@@ -75,18 +107,37 @@ const AdminInventory: React.FC<AdminInventoryProps> = ({ onEditProduct, onAddPro
 
           <button
             onClick={onAddProduct}
-            className="btn-primary py-2.5 px-5 text-[0.8rem] tracking-wider flex-1 lg:flex-none shadow-glow hover:scale-102 transition-all duration-300 cursor-pointer"
+            className="btn-primary py-2.5 px-5 text-[0.8rem] tracking-wider flex-1 xl:flex-none shadow-glow hover:scale-102 transition-all duration-300 cursor-pointer"
           >
             <FaPlus /> Agregar Producto
           </button>
         </div>
       </div>
 
+      {/* Match Statistics & Clear Filter Bar */}
+      <div className="flex justify-between items-center px-1">
+        <span className="text-xs text-text-secondary font-semibold">
+          Mostrando {filteredProducts.length} de {products.length} productos
+        </span>
+        {(prodSearch || prodCategory !== 'Todos' || sortBy !== 'name-asc') && (
+          <button
+            onClick={() => {
+              setProdSearch('');
+              setProdCategory('Todos');
+              setSortBy('name-asc');
+            }}
+            className="text-xs text-accent hover:underline font-bold transition-all duration-200 cursor-pointer border-0 bg-transparent p-0"
+          >
+            Limpiar Filtros
+          </button>
+        )}
+      </div>
+
       {filteredProducts.length === 0 ? (
         <div className="text-center py-16 px-6 admin-glass-panel shadow-xl">
-          <FaInbox className="text-[3rem] text-text-muted mb-4 mx-auto" />
+          <FaInbox className="text-[3rem] text-text-muted mb-4 mx-auto animate-pulse" />
           <h3 className="text-2xl mb-2 font-title font-extrabold text-text-primary">No se encontraron productos</h3>
-          <p className="text-text-secondary max-w-md mx-auto text-sm">Intenta ajustando el buscador o seleccionando otra categoría.</p>
+          <p className="text-text-secondary max-w-md mx-auto text-sm">Intenta ajustando el buscador, cambiando la categoría o limpiando los filtros.</p>
         </div>
       ) : inventoryViewMode === 'table' ? (
         /* Vista en Tabla */
@@ -107,7 +158,7 @@ const AdminInventory: React.FC<AdminInventoryProps> = ({ onEditProduct, onAddPro
               </thead>
               <tbody className="divide-y divide-border-brand/20 text-sm text-text-primary">
                 {filteredProducts.map((p) => (
-                  <tr key={p.id} className="hover:bg-primary/20 transition-colors duration-150">
+                  <tr key={p.id} className="hover:bg-primary/30 border-l-2 border-transparent hover:border-accent transition-all duration-200">
                     <td className="py-4 px-6 font-mono font-bold text-text-muted text-xs">#{p.id}</td>
                     <td className="py-4 px-6">
                       <div className="w-10 h-10 bg-white rounded-lg p-0.5 border border-border-brand/20 flex items-center justify-center overflow-hidden shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)]">
