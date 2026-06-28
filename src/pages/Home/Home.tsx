@@ -188,7 +188,7 @@ const Home: React.FC = () => {
     <div className="w-full">
       {/* 2.5 Sección de Promociones (Estilo Instagram Stories/Highlights) */}
       <section
-        className="min-h-[85vh] pt-[4.25rem] pb-[4.25rem] relative overflow-hidden bg-cover bg-center border-b border-border-brand/10 flex items-center justify-center"
+        className="relative h-screen min-h-[580px] -mt-[70px] overflow-hidden bg-cover bg-center border-b border-border-brand/10 flex flex-col items-center justify-start pt-[6rem] pb-4"
         style={{ backgroundImage: "url('/src/assets/hero_bg2.png')" }}
       >
         {/* Dark cinematic overlay - lighter opacity to let the background image shine through */}
@@ -200,8 +200,8 @@ const Home: React.FC = () => {
           style={{ background: 'radial-gradient(circle, #923a2b 0%, transparent 70%)' }}
         />
 
-        <div className="relative z-10 container w-full flex flex-col justify-center items-center">
-          <div className="text-center mb-10">
+        <div className="relative z-10 container w-full flex flex-col items-center">
+          <div className="text-center mb-6">
 
             <h2 className="text-[2.25rem] uppercase relative pb-4 inline-block after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[3.75rem] after:h-[3px] after:bg-accent text-transparent bg-clip-text bg-gradient-to-r from-white to-accent font-black drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
               Nuestras Promociones

@@ -27,7 +27,7 @@ const ProductDetail: React.FC = () => {
 
   if (!product) {
     return (
-      <div className="py-10 md:py-20 min-h-screen container">
+      <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container">
         <div className="text-center py-24 px-6">
           <FaExclamationTriangle className="text-[3rem] text-red-500 mb-4 mx-auto" />
           <h1 className="text-3xl mb-4 font-title font-extrabold text-text-primary">Producto no encontrado</h1>
@@ -68,7 +68,7 @@ const ProductDetail: React.FC = () => {
   };
 
   return (
-    <div className="py-10 md:py-20 min-h-screen container">
+    <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container">
       {/* Back Link */}
       <Link to="/catalogo" className="inline-flex items-center gap-2 text-text-secondary font-semibold text-[0.95rem] mb-8 transition-all duration-200 hover:text-accent hover:-translate-x-1">
         <FaArrowLeft /> Volver al Catálogo

@@ -270,7 +270,7 @@ const Catalog: React.FC = () => {
   };
 
   return (
-    <div className="py-10 md:py-20 min-h-screen container">
+    <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container">
       {/* Encabezado */}
       <header className="text-center mb-8">
         <span className="font-title font-black text-[0.9rem] text-accent tracking-widest uppercase mb-3 block">Alcanza tus metas</span>

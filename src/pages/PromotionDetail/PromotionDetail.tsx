@@ -25,7 +25,7 @@ const PromotionDetail: React.FC = () => {
 
   if (!promotion) {
     return (
-      <div className="py-10 md:py-20 min-h-screen container">
+      <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container">
         <div className="text-center py-24 px-6">
           <FaExclamationTriangle className="text-[3rem] text-red-500 mb-4 mx-auto" />
           <h1 className="text-3xl mb-4 font-title font-extrabold text-text-primary">Promoción no encontrada</h1>
@@ -61,7 +61,7 @@ const PromotionDetail: React.FC = () => {
   const otherPromotions = promotions.filter((p) => p.id !== promotion.id);
 
   return (
-    <div className="py-6 md:py-12 min-h-screen container animate-fadeIn relative">
+    <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container animate-fadeIn relative">
       {/* Decorative glowing blobs for high-end dimensional feel */}
       <div className="absolute top-10 left-1/4 w-[250px] h-[250px] rounded-full blur-[100px] opacity-10 pointer-events-none z-0 bg-accent/40" />
       <div className="absolute bottom-20 right-1/4 w-[350px] h-[350px] rounded-full blur-[120px] opacity-10 pointer-events-none z-0 bg-[#A84433]/30" />

@@ -68,7 +68,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="py-10 md:py-20 min-h-screen container animate-fadeIn">
+    <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container animate-fadeIn">
       <header className="text-center mb-14">
         <span className="font-title font-black text-[0.9rem] text-accent tracking-widest uppercase mb-3 block">¿Tienes preguntas?</span>
         <h1 className="text-4xl font-extrabold uppercase text-gradient font-title">Ponte en Contacto</h1>

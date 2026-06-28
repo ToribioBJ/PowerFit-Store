@@ -11,6 +11,7 @@ import Contact from '../pages/Contact/Contact';
 import NotFound from '../pages/NotFound/NotFound';
 import Admin from '../pages/Admin/Admin';
 import { useAuth } from '../context/AuthContext';
+import ScrollToTop from '../components/Layout/ScrollToTop';
 
 // Componente para proteger las rutas de administración
 const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -31,6 +32,7 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Rutas envueltas en el Layout General */}
         <Route path="/" element={<Layout />}>

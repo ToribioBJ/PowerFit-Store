@@ -11,10 +11,11 @@ const AdminOrders: React.FC = () => {
   // Filtered orders list
   const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
+      const searchLower = orderSearch.toLowerCase();
       const matchSearch =
-        o.customerName.toLowerCase().includes(orderSearch.toLowerCase()) ||
-        o.id.toString().includes(orderSearch) ||
-        o.customerPhone.includes(orderSearch);
+        o.customerName.toLowerCase().includes(searchLower) ||
+        o.id.toLowerCase().includes(searchLower) ||
+        o.customerPhone.toLowerCase().includes(searchLower);
       
       const matchStatus = statusFilter === 'Todos' || o.status === statusFilter;
       return matchSearch && matchStatus;

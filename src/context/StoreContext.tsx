@@ -14,7 +14,7 @@ interface StoreContextType {
   deleteProduct: (id: number) => void;
   replenishStock: (id: number, quantity: number, isPromo?: boolean) => void;
   updatePromotion: (promotion: Promotion) => void;
-  addOrder: (items: CartItem[], total: number, customerName: string, customerPhone: string) => void;
+  addOrder: (items: CartItem[], total: number, customerName: string, customerPhone: string) => string;
   updateOrderStatus: (id: string, status: Order['status']) => void;
   deleteOrder: (id: string) => void;
 }
@@ -185,39 +185,39 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   // Order actions
-  const addOrder = (items: CartItem[], total: number, customerName: string, customerPhone: string) => {
-    setOrders((prev) => {
-      const nextId = `ORD-${Math.max(...prev.map((o) => parseInt(o.id.replace('ORD-', '')) || 1000), 1000) + 1}`;
-      const newOrder: Order = {
-        id: nextId,
-        date: new Date().toISOString(),
-        items,
-        total,
-        customerName,
-        customerPhone,
-        status: 'Pendiente',
-      };
-      
-      // We also decrement stock of the items ordered
-      items.forEach((item) => {
-        const isPromo = item.product.id >= 100;
-        if (isPromo) {
-          setPromotions((prevPromos) =>
-            prevPromos.map((p) =>
-              p.id === item.product.id ? { ...p, stock: Math.max(0, p.stock - item.quantity) } : p
-            )
-          );
-        } else {
-          setProducts((prevProds) =>
-            prevProds.map((p) =>
-              p.id === item.product.id ? { ...p, stock: Math.max(0, p.stock - item.quantity) } : p
-            )
-          );
-        }
-      });
-
-      return [newOrder, ...prev];
+  const addOrder = (items: CartItem[], total: number, customerName: string, customerPhone: string): string => {
+    const nextId = `ORD-${Math.max(...orders.map((o) => parseInt(o.id.replace('ORD-', '')) || 1000), 1000) + 1}`;
+    const newOrder: Order = {
+      id: nextId,
+      date: new Date().toISOString(),
+      items,
+      total,
+      customerName,
+      customerPhone,
+      status: 'Pendiente',
+    };
+    
+    setOrders((prev) => [newOrder, ...prev]);
+    
+    // We also decrement stock of the items ordered
+    items.forEach((item) => {
+      const isPromo = item.product.id >= 100;
+      if (isPromo) {
+        setPromotions((prevPromos) =>
+          prevPromos.map((p) =>
+            p.id === item.product.id ? { ...p, stock: Math.max(0, p.stock - item.quantity) } : p
+          )
+        );
+      } else {
+        setProducts((prevProds) =>
+          prevProds.map((p) =>
+            p.id === item.product.id ? { ...p, stock: Math.max(0, p.stock - item.quantity) } : p
+          )
+        );
+      }
     });
+
+    return nextId;
   };
 
   const updateOrderStatus = (id: string, status: Order['status']) => {

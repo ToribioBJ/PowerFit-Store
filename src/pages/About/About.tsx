@@ -11,7 +11,7 @@ import {
 
 const About: React.FC = () => {
   return (
-    <div className="py-10 md:py-20 min-h-screen container">
+    <div className="pt-4 pb-12 md:pt-8 md:pb-20 min-h-screen container">
       {/* 1. Header */}
       <header className="text-center mb-14">
         <span className="font-title font-black text-[0.9rem] text-accent tracking-widest uppercase mb-3 block">¿Quiénes Somos?</span>
